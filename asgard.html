@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Asgard v1.0</title>
+</head>
+<body>
+<img src="http://images4.wikia.nocookie.net/__cb20130617021306/ironman/images/6/64/Thor-Avengers.jpg"/>
+<script>
+
+// asgard v1.0
+var Asgard = {
+
+    corsDOS: function() {
+        
+        var _this = this
+        var url = "http://localhost/test.php";
+        var times= 10;
+
+		var date = new Date();
+		start = date.getTime();
+
+        for(i=0; i<times; i++)
+        {
+           _this.init("get", url + "?id=" + i, "", false);
+           console.log(i);
+        }
+
+        var date = new Date();
+        end = date.getTime();
+		console.log('Start at :' + start + 'Finish at' + end);        
+
+    },      
+
+    init: function(method, url, data, credentials) {
+
+        var xhr = new XMLHttpRequest();
+        if ( window.XMLHttpRequest ) {
+
+          xhr.onload = function() {
+           if (this.status == 200) { 
+             var text = xhr.responseText;
+             var icerik = 'CORS request URL: \n' + url + '\n\nCORS Response: \n' + text;             
+             console.log(icerik);
+           }
+          };
+
+          xhr.onerror = function() {
+            console.log('There was an error!');
+          }; 
+     
+
+        } else if (typeof XDomainRequest != "undefined") {
+
+          xhr = new XDomainRequest();        
+
+        } else {
+
+          xhr = null;
+
+        }
+      
+          method = method.toUpperCase();
+
+          if (method == "POST" || method == "PUT")
+            xhr.open(method, url, data);
+          else
+            xhr.open(method, url);          
+          if (credentials)
+            xhr.withCredentials = "true";
+
+          xhr.send();          
+
+        return xhr;
+    }        
+
+};
+
+//for asgard
+Asgard.corsDOS();
+</script>
+
+</body>
+</html>
